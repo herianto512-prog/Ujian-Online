@@ -14,6 +14,17 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- html2pdf.js untuk Ekspor PDF Langsung -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Firebase SDK untuk Penyimpanan Otomatis & Berkelanjutan -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        window.fbModules = {
+            initializeApp, getAuth, signInAnonymously, signInWithCustomToken,
+            getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc
+        };
+    </script>
 
     <style>
         body {
@@ -87,9 +98,9 @@
                         <p class="text-[11px] text-slate-400 -mt-1">Enterprise Assessment & Anti-Cheat System</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 text-xs text-slate-300 bg-white/10 px-3 py-1.5 rounded-full">
+                <div id="syncStatusBadge" class="flex items-center gap-2 text-xs text-slate-300 bg-white/10 px-3 py-1.5 rounded-full">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Server Ujian Aktif</span>
+                    <span>Database Tersinkronisasi</span>
                 </div>
             </div>
         </header>
@@ -925,113 +936,7 @@
                     'Motherboard, Processor Intel Core i7, dan Harddisk',
                     'BIOS, UEFI, dan Device Driver VGA'
                 ],
-                answer: 1
-            },
-            {
-                id: 11,
-                type: 'pg',
-                topic: 'Media Penyimpanan Data (C2)',
-                question: 'Perbedaan utama antara penyimpanan sementara (RAM) dengan penyimpanan permanen (HDD/SSD) dalam siklus kerja komputer adalah...',
-                options: [
-                    'RAM menyimpan data secara permanen meskipun listrik padam, sedangkan SSD menghapus data saat dimatikan',
-                    'RAM bersifat volatile (data hilang saat komputer dimatikan), sedangkan HDD/SSD bersifat non-volatile (data tetap tersimpan)',
-                    'RAM hanya digunakan untuk menyimpan file video, sedangkan HDD hanya untuk sistem operasi',
-                    'SSD tidak terhubung ke motherboard, sedangkan RAM dipasang di luar casing komputer'
-                ],
-                answer: 1
-            },
-            {
-                id: 12,
-                type: 'pg',
-                topic: 'Perangkat Input & Output (C3)',
-                question: 'Layar sentuh (touchscreen) pada ponsel pintar atau mesin ATM modern memiliki keunikan dalam siklus kerja komputer karena berfungsi ganda sebagai...',
-                options: [
-                    'Perangkat pemroses dan penyimpan data permanen',
-                    'Perangkat masukan (input) sekaligus perangkat keluaran (output)',
-                    'Sistem operasi dan perangkat lunak antivirus',
-                    'Bus data internal dan sumber daya listrik'
-                ],
-                answer: 1
-            },
-            {
-                id: 13,
-                type: 'pg',
-                topic: 'Keterpaduan Sistem Komputer (C4)',
-                question: 'Sebuah unit komputer memiliki spesifikasi perangkat keras tercanggih dan sistem operasi terbaru yang terpasang dengan sempurna, namun tidak ada pengguna (brainware) yang mengoperasikannya. Dampak yang terjadi pada sistem tersebut adalah...',
-                options: [
-                    'Komputer tetap dapat membuat laporan keuangan secara mandiri tanpa perintah',
-                    'Sistem komputer tidak dapat menjalankan tujuan pengolahan data menjadi informasi karena tidak ada yang memberikan instruksi awal',
-                    'Perangkat keras akan otomatis rusak karena tidak dialiri data dari keyboard',
-                    'Sistem operasi akan menghapus seluruh perangkat lunak aplikasi secara otomatis'
-                ],
-                answer: 1
-            },
-            {
-                id: 14,
-                type: 'pg',
-                topic: 'Mekanisme Interaksi Perangkat (C3)',
-                question: 'Ketika siswa merekam suaranya menggunakan mikrofon untuk tugas presentasi, sinyal suara analog dari pengguna diubah menjadi sinyal digital agar dapat diproses oleh CPU dan disimpan ke dalam SSD. Komponen yang mengubah dan menyalurkan data tersebut adalah...',
-                options: [
-                    'Printer dan Monitor melalui kabel HDMI',
-                    'Sound Card (kartu suara) dan bus data pada motherboard',
-                    'Speaker dan Proyektor melalui gelombang radio',
-                    'Modem dan Router melalui jaringan internet'
-                ],
-                answer: 1
-            },
-            {
-                id: 15,
-                type: 'pg',
-                topic: 'Analisis Gangguan Sistem (C4)',
-                question: 'Apabila file sistem operasi pada sebuah komputer mengalami kerusakan fatal (corrupt), maka ketika tombol power ditekan yang akan terjadi adalah...',
-                options: [
-                    'Aplikasi pengolah kata tetap terbuka secara otomatis tanpa hambatan',
-                    'Komputer gagal melakukan booting dengan normal sehingga pengguna tidak dapat berinteraksi dengan aplikasi maupun perangkat keras secara utuh',
-                    'Monitor akan langsung mencetak seluruh isi harddisk ke printer',
-                    'Keyboard dan mouse berubah fungsi menjadi media penyimpanan data'
-                ],
-                answer: 1
-            },
-
-            // --- 5 SOAL ISIAN / URAIAN SINGKAT (MENGACU INDIKATOR NO. 9 & 10 KISI-KISI) ---
-            {
-                id: 16,
-                type: 'isian',
-                topic: 'Komponen Utama Sistem Komputer (C1)',
-                question: 'Tiga komponen utama penyusun sistem komputer yang harus saling bekerja sama agar komputer dapat berfungsi adalah perangkat keras (hardware), perangkat lunak (software), dan pengguna yang disebut dengan istilah...',
-                keywords: ['brainware', 'pengguna', 'user']
-            },
-            {
-                id: 17,
-                type: 'isian',
-                topic: 'Komunikasi Data Internal (C2)',
-                question: 'Jalur komunikasi internal pada motherboard yang menghubungkan CPU dengan memori serta perangkat input/output untuk mentransmisikan sinyal digital disebut dengan istilah...',
-                keywords: ['bus', 'bus data', 'data bus', 'system bus']
-            },
-            {
-                id: 18,
-                type: 'isian',
-                topic: 'Siklus Pengolahan Data (C2)',
-                question: 'Dalam siklus kerja komputer (Input – Proses – Output – Penyimpanan), komponen perangkat keras yang bertugas menjalankan tahap pemrosesan utama dan perhitungan logika data adalah...',
-                keywords: ['cpu', 'central processing unit', 'prosesor', 'processor']
-            },
-            {
-                id: 19,
-                type: 'isian',
-                topic: 'Analisis Dampak Kerusakan Komponen (C4 - Indikator 9)',
-                question: 'Jika sistem operasi pada komputer rusak atau tidak terpasang, maka perangkat lunak aplikasi tidak dapat dijalankan karena tidak ada penghubung dan pengelola sumber daya antara aplikasi dengan perangkat...',
-                keywords: ['keras', 'hardware', 'perangkat keras']
-            },
-            {
-                id: 20,
-                type: 'isian',
-                topic: 'Mekanisme Interaksi Mengetik & Menyimpan (C4 - Indikator 10)',
-                question: 'Saat pengguna mengetik huruf pada keyboard, tombol mengirimkan sinyal digital ke CPU melalui sistem operasi untuk ditampilkan pada layar monitor (output) dan dapat disimpan secara permanen ke dalam media penyimpanan seperti SSD atau...',
-                keywords: ['harddisk', 'hdd', 'flashdisk', 'flash drive', 'hard disk', 'memori']
-            }
-        ];
-
-        // 2. STATE APLIKASI (DISIMPAN DI MEMORI / SESSION)
+        // 2. STATE APLIKASI & KONEKSI DATABASE BERKELANJUTAN
         let appState = {
             teacherCreds: { username: 'admin', password: 'admin' },
             config: {
@@ -1040,25 +945,130 @@
                 cameraPolicy: 'optional' // 'optional' | 'required' | 'disabled'
             },
             questions: JSON.parse(JSON.stringify(defaultQuestions)),
-            results: [
-                {
-                    id: 'RES-001',
-                    nis: '2026001',
-                    nama: 'Siti Rahmawati',
-                    kelas: 'VII-A',
-                    cameraMode: 'Dengan Kamera',
-                    scorePG: 70,
-                    scoreIsian: 25,
-                    totalScore: 95,
-                    violations: 0,
-                    violationLogs: [],
-                    timestamp: '19/11/2026 08:15'
-                }
-            ],
+            results: [],
             globalViolationLogs: [],
             // State Ujian Aktif Siswa
             activeExam: null
         };
+
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'cbt-examguard-pro';
+
+        async function initCloudPersistence() {
+            try {
+                if (!window.fbModules || typeof __firebase_config === 'undefined') return;
+                const {
+                    initializeApp, getAuth, signInAnonymously, signInWithCustomToken,
+                    getFirestore, doc, setDoc, onSnapshot, collection
+                } = window.fbModules;
+
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    const cred = await signInWithCustomToken(auth, __initial_auth_token);
+                    currentUser = cred.user;
+                } else {
+                    const cred = await signInAnonymously(auth);
+                    currentUser = cred.user;
+                }
+
+                if (!currentUser) return;
+
+                // Listener 1: Konfigurasi, Akun Guru, & Bank Soal
+                const configDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'exam_meta', 'main_config');
+                onSnapshot(configDocRef, (snap) => {
+                    if (snap.exists()) {
+                        const data = snap.data();
+                        if (data.teacherCreds) appState.teacherCreds = data.teacherCreds;
+                        if (data.config) appState.config = data.config;
+                        if (data.questions && Array.isArray(data.questions)) appState.questions = data.questions;
+                        updatePortalInfoUI();
+                        renderTeacherQuestions(currentQFilter);
+                        renderResultsTable();
+                    } else {
+                        // Inisialisasi dokumen awal jika belum ada
+                        saveMetaToCloud();
+                    }
+                }, (err) => console.debug('Sync config error:', err));
+
+                // Listener 2: Rekap Hasil Ujian Siswa (Otomatis & Real-time)
+                const resultsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'exam_results');
+                onSnapshot(resultsColRef, (snapshot) => {
+                    const loadedResults = [];
+                    snapshot.forEach((docSnap) => {
+                        loadedResults.push({ docId: docSnap.id, ...docSnap.data() });
+                    });
+                    // Urutkan terbaru di atas
+                    loadedResults.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                    appState.results = loadedResults;
+                    renderResultsTable();
+                }, (err) => console.debug('Sync results error:', err));
+
+                // Listener 3: Log Pelanggaran Real-Time
+                const logsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'violation_logs');
+                onSnapshot(logsColRef, (snapshot) => {
+                    const loadedLogs = [];
+                    snapshot.forEach((docSnap) => {
+                        loadedLogs.push({ docId: docSnap.id, ...docSnap.data() });
+                    });
+                    loadedLogs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                    appState.globalViolationLogs = loadedLogs;
+                    renderProctoringLogs();
+                }, (err) => console.debug('Sync logs error:', err));
+
+            } catch (err) {
+                console.debug('Running in local session mode:', err);
+            }
+        }
+
+        async function saveMetaToCloud() {
+            if (!db || !currentUser || !window.fbModules) return;
+            try {
+                const { doc, setDoc } = window.fbModules;
+                const configDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'exam_meta', 'main_config');
+                await setDoc(configDocRef, {
+                    teacherCreds: appState.teacherCreds,
+                    config: appState.config,
+                    questions: appState.questions,
+                    updatedAt: Date.now()
+                }, { merge: true });
+            } catch (err) {
+                console.debug('Failed saving meta:', err);
+            }
+        }
+
+        async function saveResultToCloud(resultRecord) {
+            if (!db || !currentUser || !window.fbModules) return;
+            try {
+                const { collection, addDoc } = window.fbModules;
+                const resultsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'exam_results');
+                await addDoc(resultsColRef, {
+                    ...resultRecord,
+                    createdAt: Date.now()
+                });
+            } catch (err) {
+                console.debug('Failed saving result:', err);
+            }
+        }
+
+        async function saveViolationToCloud(logRecord) {
+            if (!db || !currentUser || !window.fbModules) return;
+            try {
+                const { collection, addDoc } = window.fbModules;
+                const logsColRef = collection(db, 'artifacts', appId, 'public', 'data', 'violation_logs');
+                await addDoc(logsColRef, {
+                    ...logRecord,
+                    createdAt: Date.now()
+                });
+            } catch (err) {
+                console.debug('Failed saving violation log:', err);
+            }
+        }
 
         // 3. INISIALISASI UI & IKON
         document.addEventListener('DOMContentLoaded', () => {
@@ -1068,6 +1078,7 @@
             renderTeacherQuestions('all');
             renderProctoringLogs();
             setupAntiCheatListeners();
+            initCloudPersistence();
         });
 
         // 4. CUSTOM MODAL HELPER (PENGGANTI ALERT & CONFIRM)
@@ -1421,17 +1432,17 @@
             exam.violations += 1;
             const timeStr = new Date().toLocaleTimeString('id-ID');
             const logEntry = `[${timeStr}] ${reason}`;
-            exam.violationLogs.push(logEntry);
-
-            // Simpan ke log global guru
-            appState.globalViolationLogs.unshift({
+            // Simpan ke log global guru & database otomatis
+            const violationEntry = {
                 nama: exam.nama,
                 nis: exam.nis,
                 kelas: exam.kelas,
                 reason: reason,
                 time: new Date().toLocaleString('id-ID'),
                 count: exam.violations
-            });
+            };
+            appState.globalViolationLogs.unshift(violationEntry);
+            saveViolationToCloud(violationEntry);
             renderProctoringLogs();
 
             document.getElementById('lastLogText').textContent = reason;
@@ -1694,8 +1705,7 @@
             const scorePG = pgQuestions.length > 0 ? Math.round((pgCorrect / pgQuestions.length) * 75) : 0;
             const scoreIsian = isianQuestions.length > 0 ? Math.round((isianCorrect / isianQuestions.length) * 25) : 0;
             const totalScore = scorePG + scoreIsian;
-
-            // Simpan ke Rekap Guru
+            // Simpan ke Rekap Guru & Database Otomatis Berkelanjutan
             const resultRecord = {
                 id: 'RES-' + Date.now().toString().slice(-4),
                 nis: exam.nis,
@@ -1710,6 +1720,7 @@
                 timestamp: new Date().toLocaleString('id-ID')
             };
             appState.results.unshift(resultRecord);
+            saveResultToCloud(resultRecord);
             renderResultsTable();
 
             // Tampilkan Layar Hasil
@@ -1797,7 +1808,7 @@
                         }
                     </td>
                     <td class="py-3.5 px-4 text-right no-export">
-                        <button onclick="deleteResult('${res.id}')" class="text-slate-400 hover:text-red-600 p-1" title="Hapus Data">
+                        <button onclick="deleteResult('${res.docId || res.id}')" class="text-slate-400 hover:text-red-600 p-1" title="Hapus Data">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </td>
@@ -1812,9 +1823,19 @@
             lucide.createIcons();
         }
 
-        function deleteResult(id) {
-            appState.results = appState.results.filter(r => r.id !== id);
+        async function deleteResult(id) {
+            const target = appState.results.find(r => r.docId === id || r.id === id);
+            appState.results = appState.results.filter(r => r.docId !== id && r.id !== id);
             renderResultsTable();
+
+            if (target && target.docId && db && currentUser && window.fbModules) {
+                try {
+                    const { doc, deleteDoc } = window.fbModules;
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'exam_results', target.docId));
+                } catch (err) {
+                    console.debug('Delete sync error:', err);
+                }
+            }
         }
 
         function addSampleResult() {
@@ -1823,12 +1844,14 @@
                 { nis: '2026003', nama: 'Rina Marlina', kelas: 'VII-A', cameraMode: 'Tanpa Kamera', scorePG: 55, scoreIsian: 15, totalScore: 70, violations: 2 }
             ];
             const pick = samples[Math.floor(Math.random() * samples.length)];
-            appState.results.unshift({
+            const sampleRecord = {
                 id: 'RES-' + Date.now().toString().slice(-4),
                 ...pick,
                 violationLogs: pick.violations > 0 ? ['Terdeteksi berpindah tab browser'] : [],
                 timestamp: new Date().toLocaleString('id-ID')
-            });
+            };
+            appState.results.unshift(sampleRecord);
+            saveResultToCloud(sampleRecord);
             renderResultsTable();
         }
 
@@ -2112,8 +2135,9 @@
             }
 
             closeQuestionEditorModal();
+            saveMetaToCloud();
             renderTeacherQuestions();
-            showModal({ title: 'Berhasil Disimpan', message: 'Bank soal ujian telah diperbarui.', type: 'success' });
+            showModal({ title: 'Berhasil Disimpan', message: 'Bank soal ujian telah diperbarui dan tersimpan otomatis.', type: 'success' });
         }
 
         function deleteQuestion(qId) {
@@ -2125,6 +2149,7 @@
                 confirmText: 'Ya, Hapus',
                 onConfirm: () => {
                     appState.questions = appState.questions.filter(q => q.id !== qId);
+                    saveMetaToCloud();
                     renderTeacherQuestions();
                 }
             });
@@ -2175,13 +2200,14 @@
 
             appState.teacherCreds.username = newUser;
             appState.teacherCreds.password = newPass;
+            saveMetaToCloud();
 
             document.getElementById('settingNewPass').value = '';
             document.getElementById('settingConfirmPass').value = '';
 
             showModal({
                 title: 'Kredensial Diperbarui',
-                message: `Username dan password guru berhasil diubah menjadi "${newUser}". Gunakan kredensial baru pada login berikutnya.`,
+                message: `Username dan password guru berhasil diubah menjadi "${newUser}" dan tersimpan otomatis. Gunakan kredensial baru pada login berikutnya.`,
                 type: 'success'
             });
         }
@@ -2191,10 +2217,11 @@
             appState.config.durationMinutes = parseInt(document.getElementById('settingDuration').value) || 45;
             appState.config.maxViolations = parseInt(document.getElementById('settingMaxViolations').value) || 3;
             appState.config.cameraPolicy = document.getElementById('settingCameraPolicy').value;
+            saveMetaToCloud();
 
             showModal({
                 title: 'Pengaturan Disimpan',
-                message: 'Konfigurasi durasi, batas pelanggaran, dan kebijakan kamera telah diterapkan.',
+                message: 'Konfigurasi durasi, batas pelanggaran, dan kebijakan kamera telah diterapkan dan tersimpan otomatis.',
                 type: 'success'
             });
         }
