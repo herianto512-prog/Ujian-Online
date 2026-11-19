@@ -936,6 +936,112 @@
                     'Motherboard, Processor Intel Core i7, dan Harddisk',
                     'BIOS, UEFI, dan Device Driver VGA'
                 ],
+                answer: 1
+            },
+            {
+                id: 11,
+                type: 'pg',
+                topic: 'Perangkat Penyimpanan Data (C2)',
+                question: 'Media penyimpanan sekunder yang bersifat non-volatile (data tidak hilang meskipun aliran listrik dimatikan) dan digunakan untuk menyimpan sistem operasi serta dokumen pengguna secara permanen adalah...',
+                options: [
+                    'RAM (Random Access Memory) dan Cache Memory',
+                    'SSD (Solid State Drive) dan HDD (Hard Disk Drive)',
+                    'Register CPU dan ALU (Arithmetic Logic Unit)',
+                    'Power Supply dan Kipas Pendingin (Heatsink)'
+                ],
+                answer: 1
+            },
+            {
+                id: 12,
+                type: 'pg',
+                topic: 'Peran Driver & Sistem Operasi (C3)',
+                question: 'Siti membeli printer baru dan menghubungkannya ke laptop, namun sistem operasi belum dapat mengenali perangkat tersebut hingga ia memasang perangkat lunak khusus bawaan pabrik. Perangkat lunak penghubung antara sistem operasi dengan perangkat keras spesifik tersebut disebut...',
+                options: [
+                    'Device Driver',
+                    'Utility Antivirus',
+                    'Spreadsheet',
+                    'Compiler Bahasa Pemrograman'
+                ],
+                answer: 0
+            },
+            {
+                id: 13,
+                type: 'pg',
+                topic: 'Keterpaduan Komponen Sistem Komputer (C4)',
+                question: 'Sebuah unit komputer memiliki spesifikasi perangkat keras yang sangat tinggi dan telah terpasang sistem operasi terbaru, tetapi tidak ada pengguna (brainware) yang mengoperasikannya. Dampak yang terjadi pada sistem komputer tersebut adalah...',
+                options: [
+                    'Komputer tetap dapat bekerja mandiri menghasilkan laporan keuangan setiap hari',
+                    'Sistem komputer tidak dapat menjalankan tujuan pengolahan data menjadi informasi karena tidak ada yang memberikan perintah dan mengendalikannya',
+                    'Perangkat keras akan otomatis merusak perangkat lunak di dalam memori',
+                    'Sistem operasi akan berubah fungsi menjadi perangkat keras masukan'
+                ],
+                answer: 1
+            },
+            {
+                id: 14,
+                type: 'pg',
+                topic: 'Analisis Gangguan Komponen (C4)',
+                question: 'Ketika tombol daya ditekan, layar monitor menyala namun muncul pesan "Operating System Not Found". Analisis penyebab dan dampak paling tepat dari peristiwa tersebut adalah...',
+                options: [
+                    'Mouse dan keyboard mengalami kerusakan fisik sehingga layar tidak dapat menampilkan kursor',
+                    'Perangkat keras berfungsi, tetapi sistem operasi gagal dimuat sehingga pengguna tidak dapat berinteraksi maupun menjalankan aplikasi apa pun',
+                    'Printer belum terhubung ke jaringan listrik sehingga proses booting terhenti',
+                    'Kapasitas layar monitor terlalu kecil untuk menampilkan antarmuka pengguna'
+                ],
+                answer: 1
+            },
+            {
+                id: 15,
+                type: 'pg',
+                topic: 'Mekanisme Interaksi Mengetik & Menyimpan (C4)',
+                question: 'Rani mengetik tugas makalah menggunakan keyboard lalu menyimpannya ke dalam SSD. Mekanisme internal komunikasi data yang terjadi secara berurutan adalah...',
+                options: [
+                    'Keyboard mengirim sinyal digital melalui bus data → diproses CPU & dikelola Sistem Operasi/Aplikasi → ditampilkan di Monitor → disimpan permanen ke SSD',
+                    'SSD mengirim sinyal ke Keyboard → diproses Monitor → dicetak ke CPU',
+                    'Monitor mengirimkan teks ke Sistem Operasi → diteruskan ke Keyboard → disimpan di Speaker',
+                    'CPU mematikan Sistem Operasi → Keyboard menulis langsung ke dalam kabel listrik'
+                ],
+                answer: 0
+            },
+
+            // --- 5 SOAL ISIAN / URAIAN SINGKAT ---
+            {
+                id: 16,
+                type: 'isian',
+                topic: 'Komponen Utama Sistem Komputer (C1)',
+                question: 'Sebutkan istilah untuk komponen manusia yang mengoperasikan, mengendalikan, dan memanfaatkan sistem komputer!',
+                keywords: ['brainware', 'pengguna', 'user']
+            },
+            {
+                id: 17,
+                type: 'isian',
+                topic: 'Peran Sistem Operasi (C2)',
+                question: 'Perangkat lunak utama yang bertugas mengelola seluruh sumber daya perangkat keras serta menjembatani komunikasi antara pengguna, aplikasi, dan hardware disebut...',
+                keywords: ['sistem operasi', 'operating system', 'os']
+            },
+            {
+                id: 18,
+                type: 'isian',
+                topic: 'Siklus Kerja Komputer (C2)',
+                question: 'Lengkapilah urutan siklus pengolahan data pada komputer berikut: Input → ... → Output → Penyimpanan.',
+                keywords: ['proses', 'process', 'pemrosesan']
+            },
+            {
+                id: 19,
+                type: 'isian',
+                topic: 'Komunikasi Antar Komponen (C2)',
+                question: 'Jalur penghubung internal pada motherboard yang berfungsi mengirimkan sinyal data digital antar perangkat input, CPU, memori, dan output disebut...',
+                keywords: ['bus', 'bus data', 'data bus']
+            },
+            {
+                id: 20,
+                type: 'isian',
+                topic: 'Analisis Gangguan Komponen (C4)',
+                question: 'Jika sistem operasi pada komputer mengalami kerusakan total (corrupt), apakah perangkat keras (hardware) masih dapat digunakan oleh pengguna untuk menjalankan aplikasi? Jawab dengan "Tidak dapat digunakan" atau "Dapat digunakan" beserta alasannya singkat!',
+                keywords: ['tidak', 'gagal', 'rusak', 'tidak bisa', 'tidak dapat']
+            }
+        ];
+
         // 2. STATE APLIKASI & KONEKSI DATABASE BERKELANJUTAN
         let appState = {
             teacherCreds: { username: 'admin', password: 'admin' },
@@ -1432,6 +1538,8 @@
             exam.violations += 1;
             const timeStr = new Date().toLocaleTimeString('id-ID');
             const logEntry = `[${timeStr}] ${reason}`;
+            exam.violationLogs.push(logEntry);
+
             // Simpan ke log global guru & database otomatis
             const violationEntry = {
                 nama: exam.nama,
